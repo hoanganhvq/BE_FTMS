@@ -10,8 +10,12 @@ const app = express();
 app.use(express.json());
 
 // Routes
+
 app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/teams', require('./routes/teamRoutes'));
+app.use('/api/player', require('./routes/playerRoutes'));
+app.use('/api/team', require('./routes/teamRoutes'));
+app.use('/api/tournament', require('./routes/tournamentRoutes'));
+app.use('/api/match', require('./routes/matchRoutes'));
 
 const PORT = process.env.PORT;
 

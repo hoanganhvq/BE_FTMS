@@ -13,7 +13,7 @@ router.post('/register', userController.register);
 // Đăng nhập và tạo JWT
 router.post('/login', userController.login);
 
-// Logout và đưa token vào blacklist
-router.post('/logout', authenticateToken, userController.logout);
+// // Logout và đưa token vào blacklist
+// router.post('/logout', authenticateToken, userController.logout);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const redisClient = require('../config/redis');
+// const redisClient = require('../config/redis');
 require('dotenv').config();
 const auth = (req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
@@ -21,10 +21,10 @@ const authenticateToken = async (req, res, next) => {
     // Nếu không có token, trả về lỗi 401 (Unauthorized)
     if (!token) return res.status(401).json({ message: 'Access Denied' });
     //Check BlackList
-    const isBlacklisted = await redisClient.get(token);
-    if (isBlacklisted) {
-        return res.status(403).json({ message: 'Token đã bị vô hiệu hóa, vui lòng đăng nhập lại' });
-    }
+    // const isBlacklisted = await redisClient.get(token);
+    // if (isBlacklisted) {
+    //     return res.status(403).json({ message: 'Token đã bị vô hiệu hóa, vui lòng đăng nhập lại' });
+    // }
 
     // Kiểm tra tính hợp lệ của token bằng cách giải mã với secret key
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {

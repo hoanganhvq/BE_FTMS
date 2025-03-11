@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const redisClient = require('../config/redis');
+// const redisClient = require('../config/redis');
  //Register
  const register = async(req, res)=>{
     try{
@@ -49,35 +49,35 @@ const login = async(req, res)=>{
     }
 }
 
-const logout = async(req, res) =>{
-    try {
-        const authHeader = req.headers.authorization;
+// const logout = async(req, res) =>{
+//     try {
+//         const authHeader = req.headers.authorization;
         
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-          return res.status(401).json({ message: 'Unauthorized - Token missing!' });
-        }
+//         if (!authHeader || !authHeader.startsWith('Bearer ')) {
+//           return res.status(401).json({ message: 'Unauthorized - Token missing!' });
+//         }
     
-        const token = authHeader.split(' ')[1];
-        const decoded = jwt.decode(token);
+//         const token = authHeader.split(' ')[1];
+//         const decoded = jwt.decode(token);
     
-        if (!decoded || typeof decoded !== 'object' || !decoded.exp) {
-          return res.status(400).json({ message: 'Invalid token!' });
-        }
+//         if (!decoded || typeof decoded !== 'object' || !decoded.exp) {
+//           return res.status(400).json({ message: 'Invalid token!' });
+//         }
     
-        const expiresIn = decoded.exp - Math.floor(Date.now() / 1000); // Tính thời gian còn lại của token
+//         const expiresIn = decoded.exp - Math.floor(Date.now() / 1000); // Tính thời gian còn lại của token
     
-        if (expiresIn > 0) {
-          await redisClient.setEx(token, expiresIn, 'blacklisted'); // Lưu token vào Redis blacklist với TTL
-        }
+//         if (expiresIn > 0) {
+//           await redisClient.setEx(token, expiresIn, 'blacklisted'); // Lưu token vào Redis blacklist với TTL
+//         }
     
-        res.clearCookie('token');
-        res.status(200).json({ 
-          status: 'success', 
-          message: 'Logged out successfully' 
-        });
+//         res.clearCookie('token');
+//         res.status(200).json({ 
+//           status: 'success', 
+//           message: 'Logged out successfully' 
+//         });
     
-      } catch (error) {
-        res.status(500).json({ message: error.message });
-      }
-}
-module.exports = {register, login, logout};
+//       } catch (error) {
+//         res.status(500).json({ message: error.message });
+//       }
+// }
+module.exports = {register, login};

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const tournamentSchema = new Schema({
     name: {type: String, required: true},
     logo:{type: String, default: 'defaultTournament.jpg'},
-    time_start: {type: Date, default: Date.now},
+    time_start: {type: Date, required: true, default: Date.now},
     location: {type: String, required: true},
     description:{type: String, required: true},
     format:{type: String, enum: ["Group Stage", "Round-Robin"], required: true},
