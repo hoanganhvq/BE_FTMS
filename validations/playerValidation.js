@@ -20,7 +20,7 @@ const playerValidationSchema = Joi.object({
     }),
 
     number: Joi.number().min(1).max(99).required().messages({
-        'number.empty': 'Player number dones not blank',
+        'number.empty': 'Player number does not blank',
         'number.min': 'Player number must be at least 1',
         'number.max': 'Player number cannot be more than 99',
         'any.required': 'Player number is required'
@@ -29,6 +29,15 @@ const playerValidationSchema = Joi.object({
     team: Joi.string().hex().length(24).optional().messages({
         'string.hex': 'Invalid team ID',
         'string.length': 'Invalid team ID length'
+    }),
+    birthDate: Joi.date().iso().optional().messages({
+        'date.iso': 'Invalid date format'
+    }),
+    isCaptain: Joi.boolean().optional().messages({
+        'boolean.base': 'Invalid isCaptain format'
+    }),
+    goals: Joi.number().optional().messages({
+        'number.base': 'Invalid goals format'
     })
 })
 

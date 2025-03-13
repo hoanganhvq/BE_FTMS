@@ -5,6 +5,7 @@ const teamSchema  = new mongoose.Schema({
     logo: {type: String, default: 'defaultClub.jpg'},
     description: {type: String},
     location: {type: String},
+    members: {type: Number},
     players: [{type: mongoose.Schema.Types.ObjectId, ref:'Player'}],
     jersey_color: [{type: String, default: '#FFFFFF'}],
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref:'User'},

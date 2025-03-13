@@ -14,6 +14,11 @@ const tournamentSchema = new Schema({
     number_of_team_advances:{type:Number},
     number_of_teams: {type:Number, required: true},
     teams:[{type: mongoose.Schema.Types.ObjectId,ref:'Team'}],
+    status: {
+        type: String,
+        enum: ['Upcoming', 'Ongoing', 'Ended'],
+        default: 'Upcoming',
+      },
     createdBy: {type: mongoose.Schema.Types.ObjectId,ref:'User'},
     createdAt:{type: Date, required: true, default: Date.now},
     

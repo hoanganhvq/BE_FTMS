@@ -65,6 +65,12 @@ const tournamentValidationSchema = Joi.object({
         'string.hex': 'Invalid team ID format',
         'string.length': 'Team ID must be 24 characters long'
     }),
+    status: Joi.string()
+    .valid('Upcoming', 'Ongoing', 'Ended')
+    .optional()
+    .messages({
+      'any.only': 'Status must be Upcoming, Ongoing, or Ended',
+    }),
 
     createdBy: Joi.string().hex().length(24).required().messages({
         'string.hex': 'Invalid user ID format',

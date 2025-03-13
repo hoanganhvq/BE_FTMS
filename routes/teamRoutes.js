@@ -14,5 +14,7 @@ router.put('/:id', teamValidation, teamController.updateTeam);
 
 router.delete('/:id', teamController.deleteTeam);
 
+router.post('/getMany', teamController.getTeamsById);
+
 // Export the router
 module.exports = router; 

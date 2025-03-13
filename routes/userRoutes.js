@@ -15,5 +15,8 @@ router.post('/login', userController.login);
 
 // // Logout và đưa token vào blacklist
 // router.post('/logout', authenticateToken, userController.logout);
+router.get('/me', authenticateToken, userController.getUser);
+
+
 
 module.exports = router;

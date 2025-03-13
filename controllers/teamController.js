@@ -1,73 +1,92 @@
 const Team = require('../models/teamModel');
 const mongoose = require('mongoose');
 // get all teams
-const getTeams = async (req,res) =>{
-    try{
+const getTeams = async (req, res) => {
+    try {
         const teams = await Team.find();
-        if(teams.length === 0){
-            return res.status(404).json({message: "Team not found"});
+        if (teams.length === 0) {
+            return res.status(404).json({ message: "Team not found" });
         }
         return res.status(200).json(teams);
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 }
 //getTeamById
-const getTeamById =async(req,res) =>{
-    const {id} = req.params;
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({message:'Invalid Team ID'});
+const getTeamById = async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ message: 'Invalid Team ID' });
     }
-    try{
+    try {
         const team = await Team.findById(id);
-        if(!team){
-            return res.status(404).json({message:'Team not found'});
+        if (!team) {
+            return res.status(404).json({ message: 'Team not found' });
         }
         return res.status(200).json(team);
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 }
+//Get A lot of teams by Id array
+const getTeamsById = async (req, res) => {
+    const { ids } = req.body;
+    
+  if (!Array.isArray(ids) || ids.some(id => !mongoose.Types.ObjectId.isValid(id))) {
+    return res.status(400).json({ error: 'Invalid IDs' });
+  }
+    try {
+
+        const teams = await Team.find({ _id: { $in: ids } }).populate('createdBy');
+        if (teams.length === 0) {
+            return res.status(404).json({ message: "Team not found" });
+        }
+        return res.status(200).json({ teams });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
 
 //createTeam
-const createTeam = async(req, res) =>{
+const createTeam = async (req, res) => {
     const team = new Team(req.body);
-    try{
+    try {
         await team.save();
         res.status(201).json(team);
-    } catch (error){
-        res.status(500).json({message: error.message});
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 }
 
 // update team
-const updateTeam = async(req, res) =>{
-    const {id} = req.params;
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({message:'Invalid Team ID'});
+const updateTeam = async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ message: 'Invalid Team ID' });
     }
 
-    try{
+    try {
         await Team.findByIdAndUpdate(id, req.body);
-        res.status(200).json({message:'Team updated successfully'});
-    }catch(error){
-        res.status(500).json({message: error.message});
+        res.status(200).json({ message: 'Team updated successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 }
 
 // delete team
-const deleteTeam = async(req, res) =>{
-    const {id} = req.params;
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({message:'Invalid Team ID'});
+const deleteTeam = async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ message: 'Invalid Team ID' });
     }
-    try{
+    try {
         await Team.findByIdAndDelete(id);
-        res.status(200).json({message:'Team deleted successfully'});
-    }catch(error){
-        res.status(500).json({message: error.message});
+        res.status(200).json({ message: 'Team deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 }
 // export
-module.exports = {getTeams, createTeam, getTeamById, updateTeam, deleteTeam};
+module.exports = { getTeams, createTeam, getTeamById, updateTeam, deleteTeam, getTeamsById };

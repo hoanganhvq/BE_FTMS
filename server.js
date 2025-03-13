@@ -1,17 +1,27 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 
+const cors = require('cors');
 // Load environment variables
 dotenv.config();
 connectDB();
 console.log(process.env.JWT_SECRET)
 const app = express();
+// ⚠️ Cho phép frontend (localhost:3000) gọi API
+// CORS will make the API accessible from the frontend
+app.use(cors({
+    origin: 'http://localhost:3000',
+  }));
+
+
 app.use(express.json());
+app.use(morgan('dev'));
 
 // Routes
 
-app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/user', require('./routes/userRoutes'));
 app.use('/api/player', require('./routes/playerRoutes'));
 app.use('/api/team', require('./routes/teamRoutes'));
 app.use('/api/tournament', require('./routes/tournamentRoutes'));

@@ -72,4 +72,7 @@ const deleteTournament = async (req, res) => {
     }
 }
 
+const teamAttending = () => {
+    
+}
 module.exports = {getTournaments, getTournamentById, createTournament, updateTournament, deleteTournament}
