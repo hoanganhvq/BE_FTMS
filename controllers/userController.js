@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 //Register
 const generateToken = (id, email) => {
     return jwt.sign(
-        { id: id, email: email },
+        { _id: id, email: email },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
     )
@@ -30,7 +30,7 @@ const register = async (req, res) => {
             {
                 token: token,
                 status: 'success',
-                user: { id: user._id, name: user.name, role: user.role, profilePic: user.profilePic }
+                user: { _id: user._id, name: user.name, role: user.role, profilePic: user.profilePic }
             });
     } catch (error) {
         res.status(400).json({ message: error.message });

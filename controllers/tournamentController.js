@@ -72,7 +72,15 @@ const deleteTournament = async (req, res) => {
     }
 }
 
-const teamAttending = () => {
-    
-}
-module.exports = {getTournaments, getTournamentById, createTournament, updateTournament, deleteTournament}
+const getTournamentByUser = async (req, res) => {
+    try {
+      console.log("User ID controller:", req.user._id); // Log để debug
+      const userId = req.user._id; // Lấy ID của user từ middleware auth
+      const tournaments = await Tournament.find({ createdBy: userId }).populate('teams'); // Tìm các Tournament được tạo bởi user và populate trường Team
+      res.status(200).json(tournaments); // Trả về danh sách Tournament
+    } catch (error) {
+      res.status(500).json({ message: error.message }); // Xử lý lỗi
+    }
+  };
+  
+module.exports = {getTournaments, getTournamentById, createTournament, updateTournament, deleteTournament, getTournamentByUser};

@@ -17,7 +17,7 @@ const matchValidationSchema = Joi.object({
     matchVenue: Joi.string().required().messages({
         'any.required': 'matchVenue is required'
     }),
-    matchTime: Joi.string().required().messages({
+    matchTime: Joi.date().required().messages({
         'any.required': 'matchTime is required'
     }),
 
@@ -26,10 +26,7 @@ const matchValidationSchema = Joi.object({
         'any.required': 'tournament is required',
         'string.hex': 'tournament must be a valid hexadecimal string'
     }),
-    createdBy: Joi.string().hex().length(24).required().messages({
-        'any.required': 'createdBy is required',
-        'string.hex': 'createdBy must be a valid hexadecimal string'
-    }),
+
     createdAt: Joi.date().iso().optional().messages({
         'date.iso': 'createdAt must be a valid ISO 8601 date'
     })

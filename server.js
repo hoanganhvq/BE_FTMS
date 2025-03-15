@@ -26,6 +26,8 @@ app.use('/api/player', require('./routes/playerRoutes'));
 app.use('/api/team', require('./routes/teamRoutes'));
 app.use('/api/tournament', require('./routes/tournamentRoutes'));
 app.use('/api/match', require('./routes/matchRoutes'));
+app.use('/api/group' , require('./routes/groupRoutes'));
+
 
 const PORT = process.env.PORT;
 

@@ -14,6 +14,7 @@ const tournamentSchema = new Schema({
     number_of_team_advances:{type:Number},
     number_of_teams: {type:Number, required: true},
     teams:[{type: mongoose.Schema.Types.ObjectId,ref:'Team'}],
+    groups:[{type: mongoose.Schema.Types.ObjectId,ref:'Group'}],
     status: {
         type: String,
         enum: ['Upcoming', 'Ongoing', 'Ended'],

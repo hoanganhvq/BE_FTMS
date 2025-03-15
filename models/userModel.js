@@ -12,7 +12,8 @@ const userSchema = new Schema({
     phone:{type: String, validate:[validator.isMobilePhone, 'Please eneter a valid phone number']},
     createdAt:{type: Date, required: true, default: Date.now},
     updatedAt: {type: Date, required: true, default: Date.now},
-    
+    teams:[{type: mongoose.Schema.Types.ObjectId,ref:'Team'}],
+    tournaments:[{type: mongoose.Schema.Types.ObjectId,ref:'Tournament'}]
 })
 
 module.exports = mongoose.model('User', userSchema);
