@@ -1,4 +1,5 @@
 const Tournament = require('../models/tournamentModel');
+const Team = require('../models/teamModel');
 const mongoose = require('mongoose');
 
 //Get all tournament 
@@ -50,6 +51,7 @@ const updateTournament = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ message: 'Invalid Tournament Id' })
     }
+    console.log("Hello")
     try {
         await Tournament.findByIdAndUpdate(id, req.body);
         res.status(200).json({ message: 'Tournament updated successfully' });
@@ -74,13 +76,55 @@ const deleteTournament = async (req, res) => {
 
 const getTournamentByUser = async (req, res) => {
     try {
-      console.log("User ID controller:", req.user._id); // Log để debug
-      const userId = req.user._id; // Lấy ID của user từ middleware auth
-      const tournaments = await Tournament.find({ createdBy: userId }).populate('teams'); // Tìm các Tournament được tạo bởi user và populate trường Team
-      res.status(200).json(tournaments); // Trả về danh sách Tournament
+        console.log("User ID controller:", req.user._id); // Log để debug
+        const userId = req.user._id; // Lấy ID của user từ middleware auth
+        const tournaments = await Tournament.find({ createdBy: userId }).populate('teams'); // Tìm các Tournament được tạo bởi user và populate trường Team
+        res.status(200).json(tournaments); // Trả về danh sách Tournament
     } catch (error) {
-      res.status(500).json({ message: error.message }); // Xử lý lỗi
+        res.status(500).json({ message: error.message }); // Xử lý lỗi
     }
-  };
-  
-module.exports = {getTournaments, getTournamentById, createTournament, updateTournament, deleteTournament, getTournamentByUser};
+};
+
+const addTeamToTournament = async (req, res) => {
+    try {
+        const { tournamentId, teamId } = req.body
+
+        if (!tournamentId || !teamId) {
+            return res.status(400).json({ message: 'Tournament ID and Team ID are required' });
+        }
+        const tournament = await Tournament.findById(tournamentId);
+        if (!tournament) {
+            return res.status(404).json({ message: 'Tournament not found' });
+        }
+
+        const team = await Team.findById(teamId);
+        if (!team) {
+            return res.status(404).json({ message: 'Team not found' });
+        } 
+        if (tournament.teams.some(t => t.toString() === teamId)) {
+            return res.status(400).json({ message: 'Team is already registered in this tournament' });
+        }
+
+        // Check team limit
+        if (tournament.teams.length >= tournament.number_of_teams) {
+            return res.status(400).json({ message: 'Tournament has reached its team limit' });
+        }
+        tournament.teams.push(teamId);
+        await tournament.save();
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Team added to tournament successfully',
+            tournament: {
+                _id: tournament._id,
+                name: tournament.name,
+                teams: tournament.teams,
+            },
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { getTournaments, addTeamToTournament, getTournamentById, createTournament, updateTournament, deleteTournament, getTournamentByUser };

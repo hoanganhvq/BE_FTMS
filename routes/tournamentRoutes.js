@@ -4,11 +4,13 @@ const auth = require('../middlewares/auth');
 const  tournamentController = require('../controllers/tournamentController');
 const tournamentValidation = require('../validations/tournamentValidation');
 //It like get with so it can be used before get with id
+router.post('/add-team', tournamentController.addTeamToTournament);
+
 router.get('/my-tournament', auth.authenticateToken, tournamentController.getTournamentByUser);
 
 router.post('/', tournamentValidation, tournamentController.createTournament);
 
-router.put('/:id', tournamentValidation, tournamentController.updateTournament);
+router.put('/:id', tournamentController.updateTournament);
 
 router.get('/', tournamentController.getTournaments);
 

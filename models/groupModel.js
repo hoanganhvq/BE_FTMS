@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const groupSchema = new mongoose.Schema({
     name: { type: String, required: true },
+    tournament: { type: mongoose.Schema.Types.ObjectId, ref: 'Tournament', required: true },
     matches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Match' }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

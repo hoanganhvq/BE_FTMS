@@ -1,11 +1,10 @@
 const Joi = require('joi');
 
 const groupValidationSchema = Joi.object({
-    name: Joi.string().min(3).max(50).required().messages({
+    name: Joi.string().min(3).max(50).messages({
         'string.empty': 'Group name does not blank',
         'string.min': 'Group name must be at least 3 characters long',
         'string.max': 'Group name cannot be more than 50 characters long',
-        'any.required': 'Group name is required'
     }),
     matches: Joi.array().items(Joi.string().hex().length(24)).messages({
         'string.hex': 'Invalid match ID format',

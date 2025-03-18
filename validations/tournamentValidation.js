@@ -37,6 +37,14 @@ const tournamentValidationSchema = Joi.object({
         'any.required': 'Tournament format is required'
     }),
 
+    number_of_group: Joi.number().integer().min(1).required().messages({
+        'number.base': 'Number of groups must be a valid number',
+        'number.min': 'There must be at least 1 group', 
+    }),
+    is_Divided_Group: Joi.boolean().required().messages({
+        'any.required': 'is_Divided_Group is required'
+    }),
+
     number_of_member: Joi.number().integer().min(5).max(50).required().messages({
         'number.base': 'Number of members must be a valid number',
         'number.min': 'Each team must have at least 5 members',
@@ -88,6 +96,7 @@ const validateTournament = (req, res, next) => {
     if (error) {
         return res.status(400).json({ error: error.details.map(err => err.message) });
     }
+    
     next();
 };
 
