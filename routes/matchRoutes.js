@@ -3,10 +3,12 @@ const router = express.Router();
 const matchController = require('../controllers/matchController');
 const matchValidation = require('../validations/matchValidation');
 
+
+router.put('/update-match-round/:id', matchController.updateMatchForRound);
+
 router.put('/:id', matchController.updateMatch2);
 
-
-router.post('/', matchValidation, matchController.createMatch);
+router.post('/generate-match-round', matchController.createMatchRound);
 
 router.delete('/:id', matchController.deleteMatch);
 

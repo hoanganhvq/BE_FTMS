@@ -38,6 +38,7 @@ const createGroupMatches= async (req, res) => {
             matchTime: new Date(), // Hoặc chỉ dùng matchDate nếu không tách riêng giờ
             matchVenue: 'Sân vận động trung lập',
             tournament,
+            type: 'Group Stage',
           });
 
           await match.save();

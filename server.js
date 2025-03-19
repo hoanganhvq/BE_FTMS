@@ -31,7 +31,6 @@ app.use('/api/tournament', require('./routes/tournamentRoutes'));
 app.use('/api/match', require('./routes/matchRoutes'));
 app.use('/api/group' , require('./routes/groupRoutes'));
 app.use('/api/round', require('./routes/roundRoutes'));
-
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

@@ -23,11 +23,6 @@ const roundSchema = new Schema({
     ref: 'Match',
     // Danh sách các trận đấu trong vòng này
   }],
-  startDate: {
-    type: Date,
-    // Ngày bắt đầu vòng đấu (nếu có)
-  },
-
   isCompleted: {
     type: Boolean,
     default: false,
@@ -37,7 +32,6 @@ const roundSchema = new Schema({
     type: Date,
     default: Date.now,
   }
-  
 });
 
 module.exports = mongoose.model('Round', roundSchema);

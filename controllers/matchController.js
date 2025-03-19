@@ -12,6 +12,16 @@ const createMatch = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
+const createMatchRound = async(req, res) =>{
+  const {matches} = req.body;
+  try{
+    const createdMatch = await Match.insertMany(matches);
+    res.status(201).json(createdMatch);
+  }catch(error){
+    res.status(500).json({ message: error.message });
+  } 
+}
+
 
 //Get all matches
 const getMatches = async (req, res) => {
@@ -46,11 +56,14 @@ const getMatchById = async (req, res) => {
 }
 
 //Update match
-const updateMatch = async (req, res) => {
+const updateMatchForRound = async (req, res) => {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ message: 'Invalid Team ID' });
     }
+    
+    await Match.findByIdAndUpdate(id, req.body);
+
     try {
         await Match.findByIdAndUpdate(id, req.body);
         res.status(200).json({ message: 'Match Update successfully' });
@@ -168,9 +181,8 @@ const getMatchesByTournamentId = async (req, res) => {
     try{
         const match = await Match.find({tournament: id}).populate('team1').populate('team2').populate('group');
         res.status(200).json(match);
-        console.log('Match data', match);
     }catch(error){
         res.status(500).json({message: error.message});
     }   
 }
-module.exports = { createMatch, getMatches, getMatchById, updateMatch,updateMatch2, deleteMatch, getMatchesByTournamentId };
+module.exports = { createMatchRound ,createMatch, getMatches, getMatchById, updateMatchForRound,updateMatch2, deleteMatch, getMatchesByTournamentId };
