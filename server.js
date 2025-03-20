@@ -8,7 +8,6 @@ const cors = require('cors');
 // Load environment variables
 dotenv.config();
 connectDB();
-console.log(process.env.JWT_SECRET)
 const app = express();
 // ⚠️ Cho phép frontend (localhost:3000) gọi API
 // CORS will make the API accessible from the frontend

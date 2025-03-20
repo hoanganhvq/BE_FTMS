@@ -8,7 +8,7 @@ router.post('/add-team', tournamentController.addTeamToTournament);
 
 router.get('/my-tournament', auth.authenticateToken, tournamentController.getTournamentByUser);
 
-router.post('/', tournamentValidation, tournamentController.createTournament);
+router.post('/', tournamentController.createTournament);
 
 router.put('/:id', tournamentController.updateTournament);
 

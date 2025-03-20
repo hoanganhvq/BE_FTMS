@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 //Get all tournament 
 const getTournaments = async (req, res) => {
     try {
-        const tournaments = await Tournament.find();
+        const tournaments = await Tournament.find().populate('teams');
         if (tournaments.length === 0) {
             return res.status(404).json({ message: 'Not found tournament' });
         }
@@ -37,6 +37,7 @@ const getTournamentById = async (req, res) => {
 //Create tournament
 const createTournament = async (req, res) => {
     const tournament = new Tournament(req.body);
+    console.log("Tournament: ", tournament);
     try {
         await tournament.save();
         res.status(201).json(tournament);
@@ -51,7 +52,6 @@ const updateTournament = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ message: 'Invalid Tournament Id' })
     }
-    console.log("Hello")
     try {
         await Tournament.findByIdAndUpdate(id, req.body);
         res.status(200).json({ message: 'Tournament updated successfully' });
@@ -127,4 +127,13 @@ const addTeamToTournament = async (req, res) => {
     }
 }
 
+
+// const caculatePlayer = async(req, res)=>{
+//     const {id} = req.params;
+//     try{
+//         const tournament = Tourname
+//     }catch(erorr){
+
+//     }
+// }
 module.exports = { getTournaments, addTeamToTournament, getTournamentById, createTournament, updateTournament, deleteTournament, getTournamentByUser };
