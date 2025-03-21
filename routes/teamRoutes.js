@@ -10,6 +10,8 @@ router.post('/add-player/:id', teamController.addPlayerIntoTeam);
 
 router.get('/statistic/:id', teamController.toReckonTeam);
 
+router.get('/my-team', authenticateToken, teamController.getTeamByUserId);
+
 router.post('/', authenticateToken, teamController.createTeam);
 
 router.get('/', teamController.getTeams);

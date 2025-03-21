@@ -10,7 +10,7 @@ router.get('/', playerController.getPlayers);
 
 router.get('/:id', playerController.getPlayerById);
 
-router.put('/:id',playerValidation, playerController.updatePlayer);
+router.put('/:id', playerController.updatePlayer);
 
 router.post('/', playerValidation, playerController.createPlayer);
 

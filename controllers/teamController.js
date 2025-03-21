@@ -30,6 +30,8 @@ const getTeamById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 }
+
+
 //Get A lot of teams by Id array
 const getTeamsById = async (req, res) => {
   const { ids } = req.body;
@@ -69,10 +71,6 @@ const createTeam = async (req, res) => {
     user.team = savedTeam._id;
     await user.save();
 
-
-
-
-
     res.status(201).json(savedTeam); // Trả về team đã lưu thay vì team gốc
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -109,8 +107,10 @@ const deleteTeam = async (req, res) => {
 
 //addPlayer 
 const addPlayerIntoTeam = async (req, res) => {
+  console.log("here");
   const { id } = req.params;
   const { playerData } = req.body;
+  console.log("playerData", playerData);
   try {
     const team = await Team.findById(id);
     if (!team) {
@@ -225,5 +225,16 @@ const toReckonTeam = async (req, res) => {
   //     "matches": [/* array of match objects */]
   //   }
   // }
+
 };
-module.exports = { toReckonTeam, addPlayerIntoTeam, getTeams, createTeam, getTeamById, updateTeam, deleteTeam, getTeamsById };
+const getTeamByUserId = async(req, res)=>{
+  const userId = req.user._id;
+  try{
+    const teams = await Team.find({createdBy: userId}).populate('players');
+    console.log("teams: ", teams);
+    res.status(200).json(teams);
+  }catch(error){
+    res.status(500).json({message: error.message});
+  }
+}
+module.exports = { getTeamByUserId, toReckonTeam, addPlayerIntoTeam, getTeams, createTeam, getTeamById, updateTeam, deleteTeam, getTeamsById };
