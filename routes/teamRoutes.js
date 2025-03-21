@@ -3,16 +3,20 @@ const express = require('express');
 const router = express.Router();
 const teamController = require('../controllers/teamController');
 const teamValidation = require('../validations/teamValidation');
-
+const { authenticateToken }  = require('../middlewares/auth');
 router.post('/getMany', teamController.getTeamsById);
 
-router.post('/', teamValidation, teamController.createTeam);
+router.post('/add-player/:id', teamController.addPlayerIntoTeam);
+
+router.get('/statistic/:id', teamController.toReckonTeam);
+
+router.post('/', authenticateToken, teamController.createTeam);
 
 router.get('/', teamController.getTeams);
 
 router.get('/:id', teamController.getTeamById);
 
-router.put('/:id', teamValidation, teamController.updateTeam);
+router.put('/:id', teamController.updateTeam);
 
 router.delete('/:id', teamController.deleteTeam);
 

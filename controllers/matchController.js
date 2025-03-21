@@ -341,4 +341,7 @@ const getThirdPlace = async (req, res) => {
       });
   }
 };
+
+
+
 module.exports = {getWinnerAndRunner,getThirdPlace, calculateAllForMatch, createMatchRound, createMatch, getMatches, getMatchById, updateMatchForRound, updateMatch2, deleteMatch, getMatchesByTournamentId };
