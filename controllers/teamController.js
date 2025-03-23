@@ -137,18 +137,18 @@ const toReckonTeam = async (req, res) => {
     // Find all matches where the team is either team1 or team2
     const matches = await Match.find({
       $or: [{ team1: id }, { team2: id }]
-    }).populate('team1 team2');
+    }).populate('team1').populate('team2');
 
     if (!matches || matches.length === 0) {
       return res.status(404).json({ message: 'No matches found for this team' });
     }
 
     // Calculate wins
-    const winMatch = matches.filter(match => match.winner === id);
+    const winMatch = matches.filter(match => match.winner.toString() === id);
 
     const lossMatch = matches.filter(match =>
       match.winner &&
-      match.winner !== id &&
+      match.winner.toString() !== id &&
       (match.team1._id.toString() === id || match.team2._id.toString() === id)
     );
 

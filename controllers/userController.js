@@ -34,7 +34,7 @@ const register = async (req, res) => {
 
     res.status(201).json({
       status: 'success',
-      user: { _id: user._id, name: user.name, role: user.role, profilePic: user.profilePic }
+      user: { _id: user._id, name: user.name, role: user.role, profilePic: 'https://res.cloudinary.com/dnuqb888u/image/upload/v1742686168/bc7a0c399990de122f1b6e09d00e6c4c_vixq5b.jpg' }
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -90,5 +90,16 @@ const getUser = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
-module.exports = { register, login, getUser };
+const updateUser = async(req, res)=>{
+  try{
+    console.log('user: ', req.user._id);
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body, {new: true});
+    if(!updatedUser){
+      return res.status(404).json({message: "User not found"});
+    }
+    res.status(200).json(updatedUser);
+  }catch(error){
+    res.status(500).json({message: error.message});
+  }
+}
+module.exports = {updateUser, register, login, getUser };
